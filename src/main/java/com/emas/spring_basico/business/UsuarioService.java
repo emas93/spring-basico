@@ -7,6 +7,7 @@ import com.emas.spring_basico.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +48,19 @@ public class UsuarioService {
 
     public void deletaUsuarioPorEmail(String email) {
         usuarioRepository.deleteByEmail(email);
+    }
+
+    public Usuario atualizaUsuario(Usuario usuario) {
+        //Se o email existe, salva a alteração, senão.. informa que o usuario não existe
+        Optional<Usuario> emailExiste = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if (emailExiste.isPresent()) {
+            usuario.setId(emailExiste.get().getId());
+            return usuarioRepository.save(usuario);
+
+        } else {
+            throw new ConflictException("Alteração não realizada, o usuário" + usuario.getEmail() + " não existe na base de dados.");
+        }
     }
 
 
