@@ -44,5 +44,9 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping
+    public ResponseEntity<Usuario> atualizaUsuario(@RequestBody Usuario usuario ){
+        return ResponseEntity.ok(usuarioService.atualizaUsuario(usuario));
+    }
 
 }
