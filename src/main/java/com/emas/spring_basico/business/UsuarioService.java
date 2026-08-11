@@ -22,7 +22,6 @@ public class UsuarioService {
             return usuarioRepository.save(usuario);
         } catch (ConflictException e) {
             throw new ConflictException("E-mail já cadastrado");
-
         }
     }
 
